@@ -1,0 +1,119 @@
+/* Orange welcome div begin */
+#orange-welcome-div  {
+    display: flex;
+    padding: 15px 0px 30px;
+    background-color: #FF621F;
+    color: white
+}
+#orange-welcome-div img {
+    margin: 0px 30px 0px 100px;
+    width: 200px;
+    border-radius: 50%;
+}
+
+.title-and-links { 
+    padding: 20px 0px 0px 0px;
+}
+.title-and-links a {
+    color: white;
+    padding: 0px 10px;
+}
+.title-and-links a:hover { 
+    color: black;
+    transition: 0.6s;
+}
+.title-and-links h1 {
+    margin: 0px 0px 15px 0px;
+    font-size: 50px;
+}
+
+@media (max-width: 485px) { 
+    #orange-welcome-div  {
+        flex-direction: column;
+        align-items: center;
+    }
+    #orange-welcome-div img {
+        margin: 0;
+    }
+    .title-and-links {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 15px 15px 20px 15px;
+        font-size: 1.3rem;
+    }
+}
+
+/** Orange welcome div end */
+/** Home content div begin */
+
+#home-content-div {
+    margin: 30px 120px 0px 120px;
+    padding 0px 0px 80px 0px;
+}
+    
+#home-content-div h1 { 
+    font-size: 40px;
+}
+#home-content-div h2 { 
+    font-size: 35px;
+    font-weight: 300;
+    margin-bottom: 10px;
+}
+
+#buttons { 
+    margin: 30px 120px 0px 120px;
+    padding 0px 0px 80px 0px;
+    display: flex;
+    gap: 10px;
+}
+
+#home-content-div hr {
+    border-top: 1px solid #FF621F;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+#home-content-div ul{
+    padding-left: 30px;
+}
+
+@media (max-width: 485px) { 
+    #home-content-div, #buttons {
+        margin: 30px 20px 0px 20px;
+    }
+    #buttons {
+        justify-content: center;
+        margin-bottom: 25px;
+    }
+}
+
+/* Home content div end */
+/* CV div start */
+
+#cv-div img {
+    display: block;
+}
+@media (max-width: 485px) {
+    #cv-div h2 { 
+        margin-top: 10px;
+        margin-bottom: 20px;
+    }
+}
+
+/* CV div end */
+/* Section div start */
+
+.section-div {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+@media (max-width: 485px) {
+    .section-div {
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+}

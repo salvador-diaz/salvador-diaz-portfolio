@@ -1,0 +1,46 @@
+# Despliegue para ambiente de producción
+services:
+
+  web-server:
+    build:
+        dockerfile: ./web_server/Dockerfile
+    ports:
+        - "80:80"
+        - "443:443"
+    depends_on:
+      vanilla_php:
+        condition: service_started
+    volumes:
+        - ./web_server/nginx/conf.d:/etc/nginx/conf.d
+
+  vanilla_php:
+    build:
+        dockerfile: ./vanilla_php/Dockerfile
+    depends_on:
+        mysql_server:
+            condition: service_healthy
+    volumes:
+        - ./vanilla_php/sites-available:/etc/apache2/sites-available
+        #- ./vanilla_php/src:/var/www/vanilla_php
+
+  mysql_server:
+    image: mysql:lts
+    environment:
+        MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+        MYSQL_USER: ${MYSQL_USER}
+        MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+        MYSQL_DATABASE: ${MYSQL_DATABASE}
+        TZ: ${TZ}
+    volumes:
+        - vanilla_php_db:/var/lib/mysql # persistir datos
+        # Al crearse el contenedor, se buscaran archivos con extensiones .sh, .sql y .sql.gz que se encuentren en `/docker-entrypoint->initdb.d`, y se ejecutaran en orden alfabetico.
+        # Entonces, se puede popular el servicio montando un dump hacie ese directorio. Por defecto se importaran a la base de datos especificada en la variable MYSQL_DATABASE.
+        # Ej: 
+    healthcheck:
+        test: mysql ${MYSQL_DATABASE} -u ${MYSQL_USER} -p${MYSQL_PASSWORD}
+        interval: 30s
+        timeout: 10s
+        retries: 4
+        start_period: 15s
+volumes:
+    vanilla_php_db:

@@ -1,0 +1,21 @@
+/* page styles begin*/
+
+#page-content-div {
+    padding: 30px 100px 80px 100px;
+    background-color: #FDDDDD;
+    height: max-content;
+}
+
+#page-content-div h1 { margin-bottom: 8px;}
+#page-content-div h3 { margin: 0px 0px 20px 0px;}
+
+#page-content-div hr { border-top: 1px solid #FF621F;}
+
+@media (max-width: 485px) {
+    #page-content-div {
+        padding: 30px 20px 80px 20px;
+      }
+}
+
+/* ------ */
+
