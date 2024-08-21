@@ -1,11 +1,8 @@
 <?php declare(strict_types=1);
+
 /**
  * Conexión minimalista a la base de datos
  */
-
-// Variables sensibles
-require_once __DIR__."/../env.php";
-
 class DB {
 
     /**
