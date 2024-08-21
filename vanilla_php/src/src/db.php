@@ -15,9 +15,9 @@ class DB {
         // Intentar conexión
         try {
             $db = new PDO(
-                "mysql:host=".DB_HOST.";dbname=".DB_DATABASE,
-                DB_USER,
-                DB_PASS,
+                "mysql:host=mysql_server;dbname=".$_ENV["MYSQL_DATABASE"],
+                $_ENV["MYSQL_USER"],
+                $_ENV["MYSQL_PASSWORD"],
             );
         } catch (Exception $e) {
             throw new Exception($e->getMessage(), $e->getCode());

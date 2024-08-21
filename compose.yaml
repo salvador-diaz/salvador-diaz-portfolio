@@ -19,6 +19,8 @@ services:
     depends_on:
         mysql_server:
             condition: service_healthy
+    env_file: # pasar las variables de entorno de docker compose a este container.
+      - path: ./.env
     volumes:
         - ./vanilla_php/sites-available:/etc/apache2/sites-available
         #- ./vanilla_php/src:/var/www/vanilla_php
