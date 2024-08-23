@@ -16,8 +16,8 @@ class GoogleAuthService {
      */
     public function __construct() {
         $this->client = new Google\Client();
-        $this->client->setClientId(GOOGLE_OAUTH_CLIENTID);
-        $this->client->setClientSecret(GOOGLE_OAUTH_SECRET);
+        $this->client->setClientId(getenv("GOOGLE_OAUTH_CLIENTID"));
+        $this->client->setClientSecret(getenv("GOOGLE_OAUTH_SECRET"));
         $this->client->setRedirectUri("https://www.salvadordiaz.net/access");
         $this->client->addScope("email");
         $this->client->addScope("profile");

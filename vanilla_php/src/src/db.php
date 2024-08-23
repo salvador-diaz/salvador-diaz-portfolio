@@ -12,9 +12,9 @@ class DB {
         // Intentar conexión
         try {
             $db = new PDO(
-                "mysql:host=mysql_server;dbname=".$_ENV["MYSQL_DATABASE"],
-                $_ENV["MYSQL_USER"],
-                $_ENV["MYSQL_PASSWORD"],
+                "mysql:host=mysql_server;dbname=".getenv("MYSQL_DATABASE"),
+                getenv("MYSQL_USER"),
+                getenv("MYSQL_PASSWORD"),
             );
         } catch (Exception $e) {
             throw new Exception($e->getMessage(), $e->getCode());
