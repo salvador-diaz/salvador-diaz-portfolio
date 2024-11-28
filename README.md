@@ -11,8 +11,13 @@ Then on the project root:
 ```
 # Copy default credential values. You can optionally set your own on `.env`.
 cp .env.example .env
-```
+cp appserver_laravel/src/.env.example appserver_laravel/src/.env
 
+sudo chown -R www-data: appserver_laravel/src
+sudo docker compose exec appserver_laravel npm install
+sudo docker compose exec appserver_laravel php artisan key:generate
+sudo docker compose exec appserver_laravel php artisan migrate
+```
 
 ### Dev
 ```
