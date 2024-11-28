@@ -1,31 +1,62 @@
-# Despliegue para ambiente/s de desarrollo
+# Despliegue para ambiente de desarrollo
 services:
+#  webserver_nginx: # Le indicamos nombre de servicio a compose
+#    image: nginx:1.18 # Descargar (la 1a vez) y usar esta imagen, obtenida del dockerhub registry
+#    ports: # Array indicando mapeo de puertos host:container
+#      - "80:80"
+#      - "5173:5173" # vite dev server
+#    depends_on:
+#      appserver_laravel:
+#        condition: service_started
+#    volumes:
+#      - ./webserver_nginx/dev/conf.d:/etc/nginx/conf.d
 
-  web-server: # Nombre arbitrario para servicio
-    image: nginx:1.18 # Descargar (la 1a vez) y usar esta imagen, obtenida del dockerhub registry
-    ports: # Mapeo de puertos del host al container respectivamente
-        - "80:80" # array
-    volumes:
-        - ./web_server/nginx/conf.d:/etc/nginx/conf.d
-
-  vanilla_php:
+  appserver_laravel:
     build: # Para este servicio en vez de una image predefinida, la personalizamos con un Dockerfile
-        dockerfile: ./vanilla_php/Dockerfile
+      context: ./appserver_laravel
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+      - "5173:5173" # Importante dejar expuesto en dev para correcto funcionamiento de devserver
+    env_file: # pasar las variables de entorno de docker compose a este container.
+      - path: ./.env
+    command: bash -c "composer install && php artisan serve --host 0.0.0.0 --port=80"
     volumes:
-        - ./vanilla_php/src:/var/www/html
-        - ./vanilla_php//development/sites-available:/etc/apache2/sites-available
+      - ./appserver_laravel/src:/var/www/appserver_laravel
+    depends_on:
+      dbserver_mysql:
+        condition: service_healthy
 
-  mysql_server:
+  #vanilla_php:
+  #  build: # Para este servicio en vez de una image predefinida, la personalizamos con un Dockerfile
+  #      dockerfile: ./vanilla_php/Dockerfile
+  #  depends_on:
+  #      mysql_server:
+  #          condition: service_healthy
+  #  env_file: # pasar las variables de entorno de docker compose a este container.
+  #    - path: ./.env
+  #  volumes:
+  #      - ./vanilla_php/src:/var/www/html
+  #     - ./vanilla_php//development/sites-available:/etc/apache2/sites-available
+
+  dbserver_mysql:
     image: mysql:lts
     ports:
-        - "3306:3306"
+      - "3306:3306"
     environment:
-        MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-        MYSQL_USER: ${MYSQL_USER}
-        MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-        MYSQL_DATABASE: ${MYSQL_DATABASE}
-        TZ: ${TZ}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      TZ: ${TZ}
     volumes:
-        # Al crearse el contenedor, se buscaran archivos con extensiones .sh, .sql y .sql.gz que se encuentren en `/docker-entrypoint->initdb.d`, y se ejecutaran en orden alfabetico.
-        # Entonces, se puede popular el servicio montando un dump hacie ese directorio. Por defecto se importaran a la base de datos especificada en la variable MYSQL_DATABASE.
-        - ./mysql_server/config/dump.sql:/docker-entrypoint-initdb.d/start.sql
+      - ./dbserver_mysql/data:/var/lib/mysql # persistir datos localmente
+      # Al crearse el contenedor, se buscaran archivos con extensiones .sh, .sql y .sql.gz que se encuentren en `/docker-entrypoint->initdb.d`, y se ejecutaran en orden alfabetico.
+      # Entonces, se puede popular el servicio montando un dump hacie ese directorio. Por defecto se importaran a la base de datos especificada en la variable MYSQL_DATABASE.
+      #- ./dbserver_mysql/config/dump.sql:/docker-entrypoint-initdb.d/start.sql
+    healthcheck:
+      test: mysql ${MYSQL_DATABASE} -u ${MYSQL_USER} -p${MYSQL_PASSWORD}
+      interval: 30s
+      timeout: 10s
+      retries: 4
+      start_period: 15s

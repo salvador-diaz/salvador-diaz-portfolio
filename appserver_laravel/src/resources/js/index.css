@@ -1,0 +1,76 @@
+/*
+    @font-face { font-family: Alagard; src: url('src/assets/fonts/alagard.ttf'); }
+    @font-face { font-family: b03; src: url('src/assets/fonts/04B_03__.ttf'); }
+    @font-face { font-family: OwreKynge; src: url('src/assets/fonts/OwreKynge.ttf'); }
+    @font-face { font-family: PixelArial11; src: url('src/assets/fonts/PixelArial11.ttf'); }
+    @font-face { font-family: PixelArial11Bold; src: url('src/assets/fonts/PixelArial11Bold.ttf'); }
+    @font-face { font-family: Minecraftia; src: url('src/assets/fonts/Minecraftia.ttf'); }
+    font-family: Minecraftia;
+    font-family: Alagard;
+    font-family: PixelArial11;
+*/
+
+html {
+  font-family: "Courier New", Courier, monospace;
+  font-size: 16px;
+
+  /* colores por defecto dark */
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  /* No modificar fonts que no tienen variantes de italics y bold */
+  font-synthesis: none;
+}
+
+a {
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+h1 {
+  font-size: 3em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+/* Si prefiere light-mode */
+@media (prefers-color-scheme: light) {
+  html {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}

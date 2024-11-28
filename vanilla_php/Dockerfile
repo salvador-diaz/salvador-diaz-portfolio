@@ -13,7 +13,8 @@ RUN apt install -y apache2 && a2enmod rewrite ssl
 RUN apt install -y php php-mysql composer
 
 RUN mkdir -p /etc/letsencrypt/live
-COPY ./certs/salvadordiaz.net /etc/letsencrypt/live/salvadordiaz.net
+# Se añade "[]" para gatillar glob pattern, el cual copia el origen solo si existe
+COPY ./[c]erts/salvadordiaz.net /etc/letsencrypt/live/salvadordiaz.net
 COPY ./vanilla_php/tables.php /root/tables.php
 
 USER www-data
